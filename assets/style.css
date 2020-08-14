@@ -14,13 +14,6 @@
     height: 38px;
 }
 
-.styleList{
-    margin: 3px;
-    margin-bottom: 7px;
-    border: 1px solid lightgray;
-    padding: 7px;
-}
-
 .border{
     border: 1px solid lightgray;
     padding: 5px;
@@ -32,8 +25,8 @@
     font-size: 2em;
 }
 
-/* Styles the 5 day forecast spans */
-.next{
+/* needed to Style 5 day forecast span later */
+/* .next{
     display: inline-block;
     text-align: center;
     background-color:lightblue;
@@ -45,7 +38,7 @@
     font: 1.5em;
     width: 350px;
 
-}
+} */
 /* Styles the forecast icons */
 .onTop{
     display: block;
@@ -55,12 +48,6 @@
 .center{
     text-align: center;
 }
-/* Search button CSS */
-.btnColor{
-    background-color: lightblue;
-    color: rgb(10, 184, 241);
-    font-weight: 700;
-}
 
 .floatLeft{
     float: left;
@@ -68,13 +55,6 @@
 
 .clear{
     clear: both;
-}
-
-.border{
-    border: 1px solid lightgray;
-    padding: 5px;
-    margin: 2px;
-    margin-right: 10px;
 }
 
 .styleList{
