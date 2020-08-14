@@ -3,7 +3,17 @@ $(document).ready(function () {
     var APIKey = "f378a622b41dd82d10888eacc8fc38ae";
     var cityInput;
 
-    console.log(cityName, cityInput)
+    // Displays the buttons for all searched cities
+    function init() {
+        if (localStorage.getItem("cityArr")) {
+            var storedCities = JSON.parse(localStorage.getItem("cityArr"));
+            cityName = storedCities
+            cityHistory();
+        } else {
+            cityName
+        }
+
+    }
 
 
     //****** Haven't gotten UV link to work *****/
@@ -14,7 +24,7 @@ $(document).ready(function () {
     function getTodaysForcast(city) {
 
 
-        var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIKey;
+        var weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIKey;
 
 
         $.ajax({
@@ -22,10 +32,8 @@ $(document).ready(function () {
             method: "GET"
         })
             .then(function (response) {
-
+                console.log(response)
                 var makeImg = $("<img class='wIcon floatLeft' src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt='Weather Icon'>");
-
-
 
                 var lon = response.coord.lon;
                 var lat = response.coord.lat;
@@ -34,16 +42,6 @@ $(document).ready(function () {
                 var todayDesc = response.weather[0].description;
                 var todayWind = Math.round(response.wind.speed);
                 var todayHumidity = response.main.humidity;
-                var uvURL = "http://api.openweathermap.org/data/2.5/uvi/history?appid=" + APIKey + "&lat=" + lat + "&lon=" + lon
-                $.ajax({
-                    URL: uvURL,
-                    method: "GET"
-                })
-                // var UV = responce
-
-                console.log(uvURL)
-
-                console.log(lon, lat)
 
                 var day = $("<div>")
                 day.append("<h1>" + city + "'s Forecast" + "</h1>"
@@ -55,12 +53,27 @@ $(document).ready(function () {
                     todayDesc + "<br> " +
                     "Wind Speed: " + todayWind + "MPH " + "<br>" +
                     "Humidity: " + todayHumidity + "% " + "</div>"
-                    // + "UV index: " + UV
                 );
 
                 $("#todaysForecast").append(day);
 
+                renderUV(lat, lon)
+
             });
+    }
+
+    function renderUV(lat, lon) {
+        var uvURL = "http://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lat + "&lon=" + lon 
+        console.log(uvURL)
+        $.ajax({
+            URL: uvURL,
+            method: "GET"
+        }).then(function (response) {
+
+                console.log(response)
+            })
+
+
     }
 
 
@@ -96,7 +109,7 @@ $(document).ready(function () {
 
 
     function storeCities() {
-        localStorage.setItem("cityName", JSON.stringify(cityName));
+        localStorage.setItem("cityArr", JSON.stringify(cityName));
     }
 
     // This function creates buttons to create a history of recently searched cities
@@ -131,12 +144,5 @@ $(document).ready(function () {
         });
     }
 
-    // Displays the buttons for all searched cities
-    function init() {
-        var storedCities = JSON.parse(localStorage.getItem("cityName"));
-        if (storedCities !== null) {
-            cityName = storedCities;
-        }
-        cityHistory()
-    }
+
 })
