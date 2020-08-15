@@ -55,18 +55,31 @@ $(document).ready(function () {
 
                 $("#todaysForecast").append(day);
 
-                renderUV(lat,lon)
+                renderUV(lat, lon, day)
+
+                getFourDayForecast(city)
+
 
             });
+
+
     }
 
-    function renderUV(lat, lon) {
+    function renderUV(lat, lon, day) {
         var uvURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lat + "&lon=" + lon
-        console.log(uvURL)
 
         $.get(uvURL).then(function (res) {
             console.log(res)
+            var UV = res.value
+
+            if (UV >= 8) {
+                day.append($("<P>").text("UV index: " + UV).addClass('badge badge-danger'))
+            } else {
+                day.append($("<P>").text("UV index: " + UV))
+            }
+
         })
+
     }
 
 
@@ -78,7 +91,7 @@ $(document).ready(function () {
         cityInput = $("#city-input").val().trim();
 
         getTodaysForcast(cityInput);
-        // getFourDayForecast(cityInput);
+        getFourDayForecast(cityInput);
 
         // Checks to see if the city entered already exists in the cityName array. If so, it does not add it again
         if (cityName.includes(cityInput)) {
@@ -123,21 +136,48 @@ $(document).ready(function () {
         }
     }
     // Checks to see if a button was clicked, if so, it takes the text of the button and displays the weather for that city
-        $("#searchHistory").on("click",".past",function () {
-            
-            getTodaysForcast($(this).attr("data-name"))
-        });
- 
+    $("#searchHistory").on("click", ".past", function () {
 
-    $.get('https://api.openweathermap.org/data/2.5/forecast?q=memphis&appid='+APIKey)
-    .then(function(res){
-        console.log(res)
-        for (let i = 0; i < res.list.length; i++) {
-           var curr = res.list[i]
-           if(curr.dt_txt.includes("12:00")){
-               console.log(curr)
-           }
-            
-        }
-    })
+        getTodaysForcast($(this).attr("data-name"))
+    });
+
+
+    function getFourDayForecast(city) {
+        $.get('https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&appid=' + APIKey)
+            .then(function (res) {
+                console.log(res)
+                var inc = 0
+                for (let i = 0; i < res.list.length; i++) {
+                    var curr = res.list[i]
+                    inc++
+                    if (curr.dt_txt.includes("12:00")) {
+                        console.log(curr)
+
+                        var makeImg = $("<img class='wIcon onTop' src='http://openweathermap.org/img/w/" + curr.weather[0].icon + ".png' alt='Weather Icon'>");
+
+                        var date = $("<h6>").attr("class", "card-title text-center mt-2").text((moment().add(inc, "days").format("M/D/YYYY")));
+
+                        var tempC5 = curr.main.temp;
+                        var tempF5 = (tempC5 - 273.15) * 1.80 + 32;
+
+                        var wind = Math.round(curr.wind.speed);
+                        var humidity = curr.main.humidity;
+                        var div = $("<div>").attr("class", "card bg-info")
+
+                        $(".card-deck").append(div)
+                        div.append(date);
+                        div.append(makeImg);
+                        div.append(
+                            tempF5.toFixed(2)
+                            + "F " + '<br>'+
+                            "Wind Speed: " + "<br>" + wind + "MPH " + "<br>" +
+                            "Humidity: " + humidity + "% ");
+
+                        // $("#displayWeather").append(daily);
+                    }
+
+                }
+            })
+
+    }
 })
