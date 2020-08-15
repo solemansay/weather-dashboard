@@ -143,6 +143,7 @@ $(document).ready(function () {
 
 
     function getFourDayForecast(city) {
+        $("#displayWeather").empty()
         $.get('https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&appid=' + APIKey)
             .then(function (res) {
                 console.log(res)
