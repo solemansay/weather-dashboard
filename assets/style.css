@@ -25,20 +25,7 @@
     font-size: 2em;
 }
 
-/* needed to Style 5 day forecast span later */
-/* .next{
-    display: inline-block;
-    text-align: center;
-    background-color:lightblue;
-    color: white;
-    margin: 15px;
-    padding: 5px;
-    min-width: 165px;
-    min-height: 204px;
-    font: 1.5em;
-    width: 350px;
 
-}  */
 /* Styles the forecast icons */
 .onTop{
     display: block;
