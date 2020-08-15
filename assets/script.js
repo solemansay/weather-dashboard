@@ -15,8 +15,6 @@ $(document).ready(function () {
 
     }
 
-    //******Need to fix Local Storage***** */
-    //****** 5 day weather forcast **** */
 
     // This gets today's forecast
     function getTodaysForcast(city) {
@@ -30,6 +28,7 @@ $(document).ready(function () {
             method: "GET"
         })
             .then(function (response) {
+                $("#displayWeather").empty()
                 console.log(response)
                 var makeImg = $("<img class='wIcon floatLeft' src='https://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt='Weather Icon'>");
 
@@ -91,7 +90,6 @@ $(document).ready(function () {
         cityInput = $("#city-input").val().trim();
 
         getTodaysForcast(cityInput);
-        getFourDayForecast(cityInput);
 
         // Checks to see if the city entered already exists in the cityName array. If so, it does not add it again
         if (cityName.includes(cityInput)) {
@@ -108,7 +106,7 @@ $(document).ready(function () {
 
     $("#add-city").on("click", function (event) {
         event.preventDefault();
-        event.stopPropagation()
+        event.stopPropagation();
         rendercities();
         storeCities();
     });
@@ -120,24 +118,22 @@ $(document).ready(function () {
 
     // This function creates buttons to create a history of recently searched cities
     function cityHistory() {
+        $("#displayWeather").empty()
         $("#searchHistory").empty();
         for (var i = 0; i < cityName.length; i++) {
             var city = cityName[i];
             var li = $("<li class='styleList'>");
             li.css("list-style-type", "none");
-            //var button = $("<button class='btn btn-outline-info past'>" + city + "</button>");
-            //button.val(city)
             li.text(city)
             li.addClass('past')
             li.attr("data-name", city)
-            //li.append(button);
             $("#searchHistory").append(li);
 
         }
     }
     // Checks to see if a button was clicked, if so, it takes the text of the button and displays the weather for that city
     $("#searchHistory").on("click", ".past", function () {
-
+        
         getTodaysForcast($(this).attr("data-name"))
     });
 
@@ -150,9 +146,10 @@ $(document).ready(function () {
                 var inc = 0
                 for (let i = 0; i < res.list.length; i++) {
                     var curr = res.list[i]
-                    inc++
+
                     if (curr.dt_txt.includes("12:00")) {
                         console.log(curr)
+                        inc++
 
                         var makeImg = $("<img class='wIcon onTop' src='http://openweathermap.org/img/w/" + curr.weather[0].icon + ".png' alt='Weather Icon'>");
 
@@ -173,8 +170,6 @@ $(document).ready(function () {
                             + "F " + '<br>'+
                             "Wind Speed: " + "<br>" + wind + "MPH " + "<br>" +
                             "Humidity: " + humidity + "% ");
-
-                        // $("#displayWeather").append(daily);
                     }
 
                 }
