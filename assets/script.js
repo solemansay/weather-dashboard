@@ -2,7 +2,7 @@ $(document).ready(function () {
     var cityName = [];
     var APIKey = "f378a622b41dd82d10888eacc8fc38ae";
     var cityInput;
-
+    init();
     // Displays the buttons for all searched cities
     function init() {
         if (localStorage.getItem("cityArr")) {
@@ -15,8 +15,6 @@ $(document).ready(function () {
 
     }
 
-
-    //****** Haven't gotten UV link to work *****/
     //******Need to fix Local Storage***** */
     //****** 5 day weather forcast **** */
 
@@ -24,16 +22,16 @@ $(document).ready(function () {
     function getTodaysForcast(city) {
 
 
-        var weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIKey;
+        var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIKey;
 
-
+        $("#todaysForecast").empty()
         $.ajax({
             url: weatherURL,
             method: "GET"
         })
             .then(function (response) {
                 console.log(response)
-                var makeImg = $("<img class='wIcon floatLeft' src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt='Weather Icon'>");
+                var makeImg = $("<img class='wIcon floatLeft' src='https://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt='Weather Icon'>");
 
                 var lon = response.coord.lon;
                 var lat = response.coord.lat;
@@ -57,23 +55,18 @@ $(document).ready(function () {
 
                 $("#todaysForecast").append(day);
 
-                renderUV(lat, lon)
+                renderUV(lat,lon)
 
             });
     }
 
     function renderUV(lat, lon) {
-        var uvURL = "http://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lat + "&lon=" + lon 
+        var uvURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lat + "&lon=" + lon
         console.log(uvURL)
-        $.ajax({
-            URL: uvURL,
-            method: "GET"
-        }).then(function (response) {
 
-                console.log(response)
-            })
-
-
+        $.get(uvURL).then(function (res) {
+            console.log(res)
+        })
     }
 
 
@@ -119,30 +112,32 @@ $(document).ready(function () {
             var city = cityName[i];
             var li = $("<li class='styleList'>");
             li.css("list-style-type", "none");
-            var button = $("<button class='btn btn-outline-info'>" + city + "</button>");
-            li.append(button);
+            //var button = $("<button class='btn btn-outline-info past'>" + city + "</button>");
+            //button.val(city)
+            li.text(city)
+            li.addClass('past')
+            li.attr("data-name", city)
+            //li.append(button);
             $("#searchHistory").append(li);
 
         }
     }
     // Checks to see if a button was clicked, if so, it takes the text of the button and displays the weather for that city
-    function searchResults() {
-        $("li").click(function (event) {
-            event.preventDefault()
-            event.stopPropagation()
-
-            var target = $(event.target);
-            if (target.is("button")) {
-                $("#displayWeather").empty();
-                $("#todaysForecast").empty();
-
-                cityInput = $(event.target).text()
-                getTodaysForcast(cityInput);
-                getFourDayForecast(cityInput);
-
-            }
+        $("#searchHistory").on("click",".past",function () {
+            
+            getTodaysForcast($(this).attr("data-name"))
         });
-    }
+ 
 
-
+    $.get('https://api.openweathermap.org/data/2.5/forecast?q=memphis&appid='+APIKey)
+    .then(function(res){
+        console.log(res)
+        for (let i = 0; i < res.list.length; i++) {
+           var curr = res.list[i]
+           if(curr.dt_txt.includes("12:00")){
+               console.log(curr)
+           }
+            
+        }
+    })
 })
