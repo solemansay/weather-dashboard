@@ -23,17 +23,19 @@
         <div class="col-lg-2">
             <div id="searchArea">
 
+                <h4 class="ml-4 mt-4"> search for a city:</h4>
                 <form id="citySearch" class="form-inline mt-2">
-                    <h4 class="ml-4 mt-4"> search for a city:</h4>
-            
+
                     <div class="input-group ml-3 mb-3">
                         <input id="city-input" type="text" class="form-control" placeholder="Enter City Name">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-info" type="button" id="add-city"><i
-                                    class="fa fa-search"></i></button>
+                            <button class="btn btn-outline-info" type="submit" id="add-city">
+                                <i class="fa fa-search"></i>
+                            </button>
                         </div>
                     </div>
                 </form>
+
                 <div id="searchHistory" class="styleList">
                     <ul id="cityList"></ul>
                 </div>
@@ -44,7 +46,7 @@
             </div>
             <div class="col-lg-10">
                 <div class="row">
-                    <div class = "card-deck" id="displayWeather">
+                    <div class="card-deck" id="displayWeather">
                     </div>
                 </div>
             </div>
