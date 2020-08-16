@@ -26,15 +26,11 @@
 }
 
 
-/* Styles the forecast icons */
 .onTop{
     display: block;
     margin: auto;
 }
 
-.center{
-    text-align: center;
-}
 
 .floatLeft{
     float: left;

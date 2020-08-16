@@ -3,6 +3,7 @@ $(document).ready(function () {
     var APIKey = "f378a622b41dd82d10888eacc8fc38ae";
     var cityInput;
     init();
+
     // Displays the buttons for all searched cities
     function init() {
         if (localStorage.getItem("cityArr")) {
@@ -18,8 +19,6 @@ $(document).ready(function () {
 
     // This gets today's forecast
     function getTodaysForcast(city) {
-
-
         var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIKey;
 
         $("#todaysForecast").empty()
@@ -29,7 +28,6 @@ $(document).ready(function () {
         })
             .then(function (response) {
                 $("#displayWeather").empty()
-                console.log(response)
                 var makeImg = $("<img class='wIcon floatLeft' src='https://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt='Weather Icon'>");
 
                 var lon = response.coord.lon;
@@ -68,13 +66,16 @@ $(document).ready(function () {
         var uvURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lat + "&lon=" + lon
 
         $.get(uvURL).then(function (res) {
-            console.log(res)
             var UV = res.value
 
-            if (UV >= 8) {
+            if (UV >= 10) {
+                day.append($("<P>").text("UV index: " + UV).addClass('badge badge-dark'))
+            } else if(UV >= 8) {
                 day.append($("<P>").text("UV index: " + UV).addClass('badge badge-danger'))
-            } else {
-                day.append($("<P>").text("UV index: " + UV))
+            }  else if(UV >= 5) {
+                day.append($("<P>").text("UV index: " + UV).addClass('badge badge-warning'))
+            }else {
+                day.append($("<P>").text("UV index: " + UV).addclass('badge badge-success'))
             }
 
         })
@@ -82,7 +83,8 @@ $(document).ready(function () {
     }
 
 
-    // This function takes the user's input and retrieves the data from the weather api as well as push the input into the array declared at the top of this page
+    // This function takes the user's input and retrieves the data from the weather api as well as push 
+    //the input into the array declared at the top of this page
     function rendercities() {
         $("#displayWeather").empty();
         $("#todaysForecast").empty();
@@ -133,7 +135,7 @@ $(document).ready(function () {
     }
     // Checks to see if a button was clicked, if so, it takes the text of the button and displays the weather for that city
     $("#searchHistory").on("click", ".past", function () {
-        
+
         getTodaysForcast($(this).attr("data-name"))
     });
 
@@ -142,13 +144,11 @@ $(document).ready(function () {
         $("#displayWeather").empty()
         $.get('https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&appid=' + APIKey)
             .then(function (res) {
-                console.log(res)
                 var inc = 0
                 for (let i = 0; i < res.list.length; i++) {
                     var curr = res.list[i]
 
                     if (curr.dt_txt.includes("12:00")) {
-                        console.log(curr)
                         inc++
 
                         var makeImg = $("<img class='wIcon onTop' src='http://openweathermap.org/img/w/" + curr.weather[0].icon + ".png' alt='Weather Icon'>");
@@ -167,7 +167,7 @@ $(document).ready(function () {
                         div.append(makeImg);
                         div.append(
                             tempF5.toFixed(2)
-                            + "F " + '<br>'+
+                            + "F " + '<br>' +
                             "Wind Speed: " + "<br>" + wind + "MPH " + "<br>" +
                             "Humidity: " + humidity + "% ");
                     }
