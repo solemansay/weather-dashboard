@@ -1,10 +1,13 @@
 # weather-dashboard
 
-https://solemansay.github.io/weather-dashboard/
+Click here to access the deployed [website](https://solemansay.github.io/weather-dashboard/).
+
+
+## description
 
 For this project, my goal was to create a fully functioning weather dashboard to search for current weather as well as the weekly forecast using the Open Weather Map API. This weather dashboard is fully dynamic creating the div to show current weather information as well as the card deck to show future weather information 5 days in advance. When you search for a city the search result will be stored in local storage as well as appended as a list item under the search bar that can later be clicked on and once again present the weather data for that city.
 
-# putting it together 
+## putting it together 
 
 The HTML for this project was very simple as most of the website is being created dynamically. 
 
@@ -30,9 +33,14 @@ Once I had completed that all that was left to do was to create the function for
 
 Once this information was appended to the div that I had hardcoded into the HTML using bootstrap's card deck class I was complete. 
 
-Thank you for viewing my Weather Dashboard project! I hoped you enjoyed my solution and continue to follow my career as a jr full-stack web developer.
+```
+Thank you for viewing my day planner project! I hoped you enjoyed my solution and continue to follow my career as a jr full-stack web developer. 
+-Soleman Sayeed
+```
 
--Soleman Sayeed.
-
+## Questions
+  
+If you have any questions anout the repo, open an issue or contact me directly at [solemansay](https://github.com/solemansay/). 
+Or send me an email at [solemansay@gmail.com](solemansay@gmail.com)
 
 
