@@ -42,6 +42,6 @@ career as a jr full-stack web developer.
 ## Questions
   
 If you have any questions anout the repo, open an issue or contact me directly at [solemansay](https://github.com/solemansay/). 
-Or send me an email at [solemansay@gmail.com](solemansay@gmail.com)
+Or send me an email at solemansay@gmail.com
 
 
