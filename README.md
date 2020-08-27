@@ -34,7 +34,8 @@ Once I had completed that all that was left to do was to create the function for
 Once this information was appended to the div that I had hardcoded into the HTML using bootstrap's card deck class I was complete. 
 
 ```
-Thank you for viewing my day planner project! I hoped you enjoyed my solution and continue to follow my career as a jr full-stack web developer. 
+Thank you for viewing my day planner project! I hoped you enjoyed my solution and continue to follow my 
+career as a jr full-stack web developer. 
 -Soleman Sayeed
 ```
 
